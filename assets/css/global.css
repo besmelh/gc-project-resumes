@@ -1,0 +1,52 @@
+/* ========== Global / base ========== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);   /* plain color only */
+  color: var(--ink);
+  font: var(--font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+ /* Persistent page wallpaper to avoid “cuts” between sections */
+html::before {
+  content: "";
+  position: fixed;
+  inset: -50vmax; /* oversize so edges never show */
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vmax 45vmax at 10% -10%,
+      color-mix(in oklab, var(--accent) 25%, transparent), transparent 60%),
+    radial-gradient(50vmax 40vmax at 110% 20%,
+      color-mix(in oklab, var(--accent-2) 18%, transparent), transparent 55%);
+}
+
+/* Dark mode automatically uses your tokens, so no extra rules needed */
+
+
+a { color: var(--link); text-decoration: none; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  /* reduced bottom padding so pages aren’t too roomy */
+  padding: 28px 20px 56px;
+}
+
+h1 { margin: 0; font-size: 24px; letter-spacing: .2px; }
+
+/* Print baseline */
+@media print {
+  :root { --bg: #fff; --panel: #fff; --ink: #111; --muted: #555; }
+  body { background: #fff; color: #111; }
+  .container { padding: 0; }
+}

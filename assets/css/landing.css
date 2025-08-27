@@ -1,0 +1,259 @@
+/* Landing page: sticky transparent header, zero top gap, hero + snap */
+
+/* Config */
+:root { --header-h: 72px; }
+
+/* Header wrapper: remove vertical padding & background */
+body > .container:first-of-type {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: transparent !important;
+}
+
+/* Sticky header: flush to top, transparent, no gap */
+body > .container:first-of-type .header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  min-height: var(--header-h);
+  align-items: center;
+  margin: 0; /* remove default bottom margin */
+}
+
+/* Remove “card” look */
+main.container,
+main.container > section,
+.hero-portfolio .hero-grid,
+.hero-portfolio .hero-figure {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Hero directly under header */
+main.container {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Desktop: snap one screen per section */
+@media (min-width: 1024px) {
+  html { scroll-behavior: smooth; }
+  body {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--header-h);
+  }
+
+  main.container { padding: 0 !important; }
+
+  main.container > section {
+    min-height: calc(100vh - var(--header-h));
+    display: grid;
+    place-items: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    padding: 0 20px;
+    margin: 0;
+  }
+
+  .hero { margin: 0; }
+  .profile { padding: 0; }
+  .highlights { padding: 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body { scroll-snap-type: none; }
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 0;
+}
+.hero .left { display: flex; flex-direction: column; gap: 8px; }
+
+.kicker { margin: 0 0 8px; font-weight: 800; letter-spacing: .2px; color: var(--muted); }
+.display { margin: 0 0 10px; font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; }
+.display .em { color: color-mix(in oklab, var(--link) 70%, var(--ink)); }
+.lede { color: var(--muted); margin: 0 0 14px; max-width: var(--readable); }
+
+.hero-portfolio .hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Decorative block */
+.hero-portfolio .hero-figure {
+  margin: 0;
+  position: relative;
+  min-height: 220px;
+}
+.hero-portfolio .hero-cutout {
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4 / 3;
+  border-radius: 28px 28px 120px 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow), 0 16px 48px rgba(0,0,0,.14);
+  pointer-events: none;
+}
+
+/* Profiles */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 28px;
+  align-items: center;
+}
+.profile-grid.flip { grid-template-columns: 1.1fr 0.9fr; }
+
+.profile-media {
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  max-height: 360px;
+  overflow: hidden;
+}
+.profile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 28px 28px 120px 28px;
+  border: 4px solid color-mix(in oklab, var(--ink) 10%, var(--border));
+  box-shadow: var(--shadow);
+  display: block;
+}
+
+.profile-copy h2 { margin: 0 0 6px; font-size: 26px; }
+.profile-copy .sub { margin: 0 0 12px; color: var(--muted); }
+.profile-copy .chips { margin-bottom: 16px; }/* --- Highlights: modern + tight, opt-out of full-viewport section --- */
+
+/* 1) Stop Highlights from taking the whole viewport on desktop */
+@media (min-width: 1024px) {
+  main.container > section.highlights {
+    min-height: auto;          /* override the global full-height */
+    place-items: normal;       /* stop vertical centering */
+    padding: 0;                /* keep it compact */
+  }
+}
+
+/* 2) Section spacing */
+.highlights { 
+  width: 100%; 
+  margin-top: 24px;            /* tighter than 40px */
+}
+
+/* 3) Modern heading: accent underline, tighter gap */
+.highlights h2 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: .2px;
+  font-weight: 800;
+  position: relative;
+  color: var(--ink);
+}
+.highlights h2::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 4px 10px color-mix(in oklab, var(--accent) 22%, rgba(0,0,0,.12));
+}
+
+/* 4) 2×2 grid, a bit tighter */
+.features.two-by-two {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;                   /* was 16–20px */
+  max-width: var(--readable);
+  margin: 0 auto;
+}
+
+/* 5) Flatter, more modern cards (less “boxy”) */
+.feature-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "ico   title"
+    "ico   body";
+  gap: 8px 10px;
+  padding: 14px;
+  background: transparent;     /* flatter */
+  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  border-radius: var(--radius-md);
+  box-shadow: none;            /* no drop shadow */
+  align-items: start;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease, opacity .35s ease, translate .35s ease;
+}
+.feature-card:hover {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--panel) 70%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 14%, var(--border));
+}
+
+/* Icon tile stays brandy */
+.feature-card .ico {
+  grid-area: ico;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.feature-card h3 {
+  grid-area: title;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.feature-card p {
+  grid-area: body;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* 6) Staggered reveal (kept subtle) */
+.reveal .feature-card { opacity: 0; translate: 0 8px; }
+.reveal.visible .feature-card { opacity: 1; translate: 0 0; }
+.reveal.visible .feature-card:nth-child(1) { transition-delay: .02s; }
+.reveal.visible .feature-card:nth-child(2) { transition-delay: .06s; }
+.reveal.visible .feature-card:nth-child(3) { transition-delay: .10s; }
+.reveal.visible .feature-card:nth-child(4) { transition-delay: .14s; }
+
+/* 7) Mobile: 1 per row */
+@media (max-width: 720px) {
+  .features.two-by-two { grid-template-columns: 1fr; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card { transition: none; }
+  .reveal .feature-card,
+  .reveal.visible .feature-card { opacity: 1; translate: 0 0; }
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4 / 4;
+  object-fit: cover;
+  border-radius: 28px 28px 120px 28px;
+  box-shadow: var(--shadow), 0 16px 48px rgba(0,0,0,.14);
+  align-items: right;
+}

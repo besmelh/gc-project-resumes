@@ -1,0 +1,168 @@
+/* ===========================
+   Resume — Two-column layout
+   =========================== */
+
+/* Shell */
+main.container { max-width: var(--content); }
+
+/* Card wrapper */
+.resume {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 22px; /* slightly roomier */
+}
+
+/* Grid: sticky sidebar + content */
+.resume.resume-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+}
+
+/* ===== Sidebar ===== */
+.resume-aside {
+  position: sticky;
+  top: 32px; /* clears header */
+  align-self: start;
+  background: color-mix(in oklab, var(--panel) 96%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.resume-aside .name {
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.resume-aside .role {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Optional avatar (set display:block to show) */
+.resume-aside .avatar {
+  width: 100%;
+  border-radius: 16px;
+  display: none;
+  margin-bottom: 12px;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  border: 1px solid var(--border);
+}
+
+/* Compact contact block */
+.resume-aside .contact {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  margin: 12px 0 14px;
+}
+.resume-aside .contact a { word-break: break-word; }
+
+/* Key skills */
+.resume-aside .chips { gap: 6px; margin-top: 8px; }
+
+/* ===== Color Link Tiles (vertical) ===== */
+.link-tiles {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 6px;
+}
+.tile {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.tile:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(0,0,0,.16); }
+.tile:active { transform: translateY(0); }
+
+.tile .ico {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.2);
+}
+.tile .lbl { font-weight: 700; letter-spacing: .2px; }
+.tile .sub { font-size: 12px; opacity: .9; }
+
+/* Brand themes */
+.tile.email     { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.tile.linkedin  { background: #0A66C2; }
+.tile.portfolio { background: linear-gradient(135deg, #ff7a18, #ffb55a); color:#202020; border-color: rgba(0,0,0,.08); }
+.tile.portfolio .ico { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); }
+
+/* ===== Main content ===== */
+.resume-main { display: grid; gap: 18px; }
+
+/* Section block */
+.section {
+  background: color-mix(in oklab, var(--panel) 98%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 16px 14px;
+}
+.section h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  letter-spacing: .2px;
+}
+.section p { margin: 6px 0; }
+.section ul { margin: 6px 0; padding-left: 18px; }
+
+/* ===== Experience list with subtle timeline dots ===== */
+.items { display: grid; gap: 14px; }
+.item {
+  position: relative;
+  padding-left: 16px;
+}
+.item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .6em;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+.item .title { font-weight: 700; }
+.item .meta  { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+/* Buttons inside sections */
+.section .cta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Print cleanups */
+@media print {
+  :root { --bg:#fff; --ink:#111; --muted:#555; --panel:#fff; --border:#ddd; }
+  body { background:#fff; color:#111; }
+  .resume, .resume-aside, .section { box-shadow: none; }
+  .resume.resume-layout { display: block; }
+  .resume-aside, .resume-main { padding: 0; border: 0; }
+  .item::before { background:#111; box-shadow:none; }
+  a { color:#111; text-decoration: underline; }
+  .actions, .rocker, button { display: none !important; }
+}
+
+/* Mobile */
+@media (max-width: 960px) {
+  .resume.resume-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .resume-aside { position: static; }
+}

@@ -1,0 +1,39 @@
+/* ========== Design tokens ========== */
+:root {
+  /* Brand */
+  --accent: #A100FF;        /* Accenture purple */
+  --accent-2: #22D3EE;      /* Cyan accent */
+
+  /* Light theme (default) */
+  --bg: #ffffff;
+  --panel: #f7f7fb;
+  --ink: #0b0c0f;
+  --muted: #586174;
+  --link: #5b2dff;
+  --chip: #eef0f7;
+  --border: #e5e7f0;
+  --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+
+  /* Radii, sizing */
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --container: 1140px;
+  --font: 15px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+
+  /* Layout polish */
+  --content: 1040px;   /* max width for big blocks */
+  --readable: 860px;   /* comfortable text line-length */
+}
+
+/* Dark theme overrides (toggled by html.theme-dark) */
+html.theme-dark {
+  --bg: #0b0c0f;
+  --panel: #11131a;
+  --ink: #eaeef6;
+  --muted: #c8d2e3;   /* slightly stronger for better contrast */
+  --link: #bca7ff;
+  --chip: #1b1f2a;
+  --border: #1a2030;
+  --shadow: 0 16px 40px rgba(0,0,0,.35);
+}

@@ -1,0 +1,147 @@
+/* ========== Header shell ========== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 20%, transparent);
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:hover {
+  filter: brightness(0.98);
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  background: var(--chip);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+/* Rocker switch (Theme) */
+.actions .rocker {
+  margin-left: 12px;
+}
+.rocker {
+  display: flex;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 6px;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06); /* softer shadow so it doesn’t dominate */
+}
+.rocker button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+.rocker .thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: 50%;
+  left: 4px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-radius: 10px;
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+  box-shadow: 0 8px 24px color-mix(in oklab, var(--accent) 28%, rgba(0,0,0,0.18));
+}
+.rocker[data-side="right"] .thumb {
+  transform: translateX(calc(100% + 6px));
+}
+@media (prefers-reduced-motion: reduce) {
+  .rocker .thumb { transition: none; }
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;                    /* more breathing room above */
+  padding: 16px 20px;                  /* comfortable padding */
+  background: var(--panel);            /* subtle background panel */
+  border-top: 1px solid var(--border); /* visual separation */
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover,
+.footer a:focus {
+  text-decoration: underline;
+}
+
+
+/* Utilities */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+.grid.two {
+  grid-template-columns: 1fr 1fr;
+}
