@@ -1,37 +1,34 @@
 name: Deploy to GCS
+
 on:
   push:
-    branches: [ main ]   # or your default branch
+    branches: [ master ]   # change if your default branch is "main"
   workflow_dispatch:
-
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # If using a JSON key:
-      - name: Auth to GCP
+      # Authenticate to GCP with service account JSON
+      - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # If using Workload Identity Federation instead, replace the step above with:
-      # - uses: google-github-actions/auth@v2
-      #   with:
-      #     workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDP }}
-      #     service_account: your-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
-
-      - name: Setup gcloud
+      - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Deploy to GCS (sync files)
+      - name: Deploy files to GCS
         run: |
-          # Exclude VCS/workflow files from upload
+          # Sync repo to bucket, exclude workflows and README
           gsutil -m rsync -r -d -x "^\.(git|github)/|^README\.md$" . gs://${{ secrets.GCS_BUCKET }}
-          # Optional: reduce caching so updates appear immediately
-          gsutil -m setmeta -h "Cache-Control:no-cache" gs://${{ secrets.GCS_BUCKET }}/**/*.html
+
+          # Set metadata for all files to reduce caching
+          gsutil -m setmeta -h "Cache-Control:no-cache" gs://${{ secrets.GCS_BUCKET }}/**/*
+
